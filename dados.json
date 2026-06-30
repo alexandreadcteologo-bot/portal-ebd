@@ -1,19 +1,19 @@
 {
   "avisos": [],
   "estudos": [],
-  "aniversariantes": [
-    {
-      "nome": "ALEXANDRE CUNH",
-      "dia": "5 DE ABRIL DE 2026"
-    }
-  ],
+  "aniversariantes": [],
   "destaquesEstrelas": [],
   "classeCampeao": {
-    "nome": "MAÇAROCAS",
-    "label": "Classe Campeã do 2º Trimestre"
+    "nome": "MAÃAROCAS",
+    "label": "Classe CampeÃ£ do 2Âº Trimestre"
   },
   "banners": {
     "img1": "",
     "img2": ""
-  }
+  },
+  "quemSomos": {
+    "p1": "",
+    "p2": ""
+  },
+  "classesList": []
 }
