@@ -1,4 +1,19 @@
-
-
-JSON
-{}
+{
+  "avisos": [],
+  "estudos": [],
+  "aniversariantes": [
+    {
+      "nome": "ALEXANDRE CUNH",
+      "dia": "5 DE ABRIL DE 2026"
+    }
+  ],
+  "destaquesEstrelas": [],
+  "classeCampeao": {
+    "nome": "",
+    "label": ""
+  },
+  "banners": {
+    "img1": "",
+    "img2": ""
+  }
+}
