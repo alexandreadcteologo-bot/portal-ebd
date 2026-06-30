@@ -4,47 +4,47 @@
   "aniversariantes": [
     {
       "nome": "Pr. Ronildo Leocadio",
-      "dia": "27 ABRIL",
-      "classe": "Classe MaÃ§arocas"
+      "dia": "27 de Abril",
+      "classe": "Classe Maçarocas"
     }
   ],
   "destaquesEstrelas": [
     {
       "nome": "Evangelina",
-      "classe": "Classe JÃ³ias Preciosas"
+      "classe": "Classe Jóias Preciosas"
     },
     {
-      "nome": "Maria Laura",
-      "classe": "Classe JÃ³ias Preciosas"
+      "nome": "Maria Luara",
+      "classe": "Classe Jóias Preciosas"
     },
     {
       "nome": "Nivane",
-      "classe": "Classe JÃ³ias Preciosas"
+      "classe": "Classe Jóias Preciosas"
     },
     {
       "nome": "Luendrya",
       "classe": "Classe Jovens e Adolescentes"
     },
     {
-      "nome": "Pr. Ronildo",
-      "classe": "Classe MaÃ§arocas"
+      "nome": "Pr. Ronildo Leocadio",
+      "classe": "Classe Maçarocas"
     },
     {
       "nome": "Dc. Silvano",
-      "classe": "Classe MaÃ§arocas"
+      "classe": "Classe Maçarocas"
     },
     {
       "nome": "Valdiney",
-      "classe": "Classe MaÃ§arocas"
+      "classe": "Classe Maçarocas"
     },
     {
       "nome": "Yone",
-      "classe": "Classe Estrela da ManhÃ£"
+      "classe": "Classe Estrela da Manhã"
     }
   ],
   "classeCampeao": {
-    "nome": "Classe MaÃ§arocas",
-    "label": "2Âº TRIMESTRE"
+    "nome": "Classe Maçarocas",
+    "label": "2º TRIMESTRE"
   },
   "banners": {
     "img1": "",
