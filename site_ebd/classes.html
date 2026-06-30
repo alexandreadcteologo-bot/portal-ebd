@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossas Classes - EBD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Charter:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #0f1c3f;
+            --primary-light: #1e2e62;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --bg-site: #f4f6fa;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Charter', Georgia, serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-site); color: var(--text-main); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+        /* Ajustes no Topo para comportar o Menu Suspenso */
+        header { 
+            background-color: var(--primary-dark); 
+            border-bottom: 3px solid var(--accent); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-shadow: 0 4px 12px rgba(15, 28, 63, 0.1); 
+        }
+        
+        .nav-container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 18px 20px; 
+            position: relative;
+        }
+        
+        .logo { font-size: 22px; font-weight: 700; color: #ffffff; text-decoration: none; letter-spacing: -0.5px; }
+        .logo span { color: var(--accent); }
+
+        /* Botão do Menu Hambúrguer */
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+            display: block;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+
+        .menu-toggle:hover {
+            color: var(--accent);
+        }
+
+        /* Estrutura Suspensa Flutuante */
+        nav {
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            background-color: var(--primary-dark);
+            border: 1px solid var(--primary-light);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+            padding: 10px 0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            z-index: 999;
+        }
+
+        /* Ativador do menu */
+        nav.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        nav a { 
+            color: #e2e8f0; 
+            text-decoration: none; 
+            padding: 12px 20px;
+            margin-left: 0; 
+            font-weight: 600; 
+            font-size: 15px; 
+            transition: background-color 0.2s, color 0.2s; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        nav a:last-child {
+            border-bottom: none;
+        }
+
+        nav a:hover, nav a.active { 
+            color: var(--accent); 
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .hero { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%); padding: 50px 20px; text-align: center; color: #ffffff; }
+        .hero h1 { font-size: 2.3rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -1px; }
+        .hero p { font-size: 1.1rem; color: #cbd5e1; }
+
+        .main-content { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        
+        .section-title { font-size: 20px; font-weight: 700; color: var(--primary-dark); margin-bottom: 25px; padding-bottom: 10px; border-bottom: 2px solid var(--accent); }
+
+        /* Estrutura de Exibição das Classes */
+        .class-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); }
+        .class-badge { background-color: #f8fafc; border: 1px solid var(--border); border-left: 4px solid var(--accent); padding: 6px 14px; font-size: 12px; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; display: inline-block; margin-bottom: 15px; border-radius: 0 4px 4px 0; }
+        .class-card h3 { font-size: 22px; color: var(--primary-dark); margin-bottom: 10px; }
+        .class-card p { color: var(--text-muted); font-size: 15.5px; margin-bottom: 15px; text-align: justify; }
+        
+        .class-meta { display: flex; gap: 20px; font-size: 13.5px; font-weight: 600; color: var(--primary-light); border-top: 1px dashed var(--border); padding-top: 12px; }
+        .class-meta span strong { color: var(--text-main); }
+
+        footer { text-align: center; padding: 45px 20px; font-size: 13.5px; color: #94a3b8; background-color: var(--primary-dark); border-top: 4px solid var(--accent); margin-top: 60px; }
+        
+        @media (max-width: 680px) {
+            .nav-container { padding: 14px 20px; }
+            nav { right: 20px; width: calc(100% - 40px); }
+            .class-meta { flex-direction: column; gap: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portal<span>EBD</span></a>
+            
+            <button class="menu-toggle" id="menuBtn" aria-label="Abrir Menu">☰</button>
+            
+            <nav id="navMenu">
+                <a href="index.html">Início</a>
+                <a href="quem-somos.html">Quem Somos</a>
+                <a href="estudos.html">Estudos</a>
+                <a href="classes.html" class="active">Classes</a>
+                <a href="pedido.html">Revistas</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Nossas Classes de Ensino</h1>
+            <p>Conheça os grupos de estudo e localize sua sala bíblica</p>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="section-title">🏛️ Organização Educacional</div>
+
+        <div class="class-card">
+            <div class="class-badge">Classe de Mulheres</div>
+            <h3>Classe Estrela da Manhã</h3>
+            <p>Espaço especial voltado para o público feminino. Estudos e reflexões bíblicas sob a perspectiva das mulheres cristãs, focando na edificação, comunhão e papel da mulher na obra do Senhor.</p>
+            <div class="class-meta">
+                <span>Público: <strong>Mulheres</strong></span>
+                <span>Revista: <strong>Adultos</strong></span>
+            </div>
+        </div>
+
+        <div class="class-card">
+            <div class="class-badge">Classe de Mulheres</div>
+            <h3>Classe Jóias Preciosas</h3>
+            <p>Segunda turma inteiramente dedicada às mulheres da comunidade. Um ambiente focado no crescimento espiritual, acolhimento, oração intercessória e aplicação prática diária das Escrituras.</p>
+            <div class="class-meta">
+                <span>Público: <strong>Mulheres</strong></span>
+                <span>Revista: <strong>Adultos</strong></span>
+            </div>
+        </div>
+
+        <div class="class-card">
+            <div class="class-badge">Classe de Homens</div>
+            <h3>Classe Maçarocas</h3>
+            <p>Classe tradicional voltada para o público masculino. Promove debates bíblicos doutrinários e ensinamentos direcionados para os desafios do homem cristão, liderança familiar e integridade.</p>
+            <div class="class-meta">
+                <span>Público: <strong>Homens</strong></span>
+                <span>Revista: <strong>Adultos</strong></span>
+            </div>
+        </div>
+
+        <div class="class-card">
+            <div class="class-badge">Classe de Jovens e Adolescentes</div>
+            <h3>Classe Jovens e Adolescentes</h3>
+            <p>Ensino contextualizado com linguagem dinâmica e acolhedora. Preparada para responder às principais dúvidas da nossa juventude, ajudando a fortificar os pilares da fé e a resistir às pressões cotidianas.</p>
+            <div class="class-meta">
+                <span>Público: <strong>Juventude EBD</strong></span>
+                <span>Revista: <strong>Jovens / Adolescentes</strong></span>
+            </div>
+        </div>
+
+        <div class="class-card">
+            <div class="class-badge">Classe Infantil</div>
+            <h3>Classe de Crianças</h3>
+            <p>Espaço pedagógico e lúdico estruturado para introduzir as histórias mais importantes da Bíblia aos pequenos. Ensinando os fundamentos morais e espirituais da fé cristã com muito amor e didática apropriada.</p>
+            <div class="class-meta">
+                <span>Público: <strong>Crianças (Infantil)</strong></span>
+                <span>Revista: <strong>Infantil / Maternal</strong></span>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Escola Bíblica Dominical | IEADAM - ÁREA 111 | Pr. José Nelson - Igreja da Torre</p> 
+    </footer>
+
+    <!-- INTERATIVIDADE DO MENU SUSPENSO -->
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        menuBtn.addEventListener('click', (e) => {
+            navMenu.classList.toggle('open');
+            e.stopPropagation();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && e.target !== menuBtn) {
+                navMenu.classList.remove('open');
+            }
+        });
+    </script>
+
+</body>
+</html>

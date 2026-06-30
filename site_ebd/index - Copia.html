@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBD - Escola Bíblica Dominical</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Charter:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Identidade Visual Baseada na Educação Cristã Continuada (ECC) com Tipografia Bíblia Online */
+        :root {
+            --primary-dark: #0f1c3f;   /* Azul Marinho Profundo (Identidade ECC) */
+            --primary-light: #1e2e62;  /* Azul intermediário para elementos secundários */
+            --accent: #f59e0b;         /* Dourado/Amarelo Quente (Destaques e Botões ECC) */
+            --accent-hover: #d97706;   /* Tom de ouro mais escuro para efeito hover */
+            --bg-site: #f4f6fa;        /* Fundo suave off-white/gelo */
+            --bg-card: #ffffff;        /* Branco puro para destacar os blocos */
+            --border: #e2e8f0;         
+            --text-main: #0f172a;      /* Texto de leitura nítido */
+            --text-muted: #475569;     
+            
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Charter', Georgia, serif; /* Fonte clássica do Bíblia Online */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-site);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Topo do Site (Azul Marinho Forte com Linha de Destaque Dourada) */
+        header {
+            background-color: var(--primary-dark);
+            border-bottom: 3px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(15, 28, 63, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        /* Botão do Menu Hambúrguer */
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+            display: block; /* Visível por padrão para o menu suspenso */
+            padding: 5px;
+            transition: color 0.2s;
+        }
+
+        .menu-toggle:hover {
+            color: var(--accent);
+        }
+
+        /* Estrutura Suspensa do Menu Principal */
+        nav {
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            background-color: var(--primary-dark);
+            border: 1px solid var(--primary-light);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+            padding: 10px 0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            
+            /* Efeito de esconder/revelar com transição suave */
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            z-index: 999;
+        }
+
+        /* Classe que ativa a exibição do menu via JavaScript */
+        nav.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        nav a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin-left: 0; /* Reseta o estilo antigo */
+            font-weight: 600;
+            font-size: 15px;
+            transition: background-color 0.2s, color 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        nav a:last-child {
+            border-bottom: none;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Banner de Imagens Rotativas Interativas */
+        .hero {
+            width: 100%;
+            height: 320px; 
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+            background-color: #000; 
+        }
+
+        .hero a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out; 
+            z-index: 1;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        /* Bloco de Boas-Vindas posicionado abaixo do banner rotativo */
+        .welcome-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 40px 35px;
+            margin-bottom: 35px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .welcome-block h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .welcome-block p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            font-weight: 500;
+        }
+
+        /* Botão Chamativo Dourado (Estilo ECC) */
+        .btn-principal {
+            background-color: var(--accent);
+            color: var(--primary-dark);
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.2s, transform 0.1s;
+            display: inline-block;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-principal:hover {
+            background-color: var(--accent-hover);
+            color: #ffffff;
+        }
+
+        .btn-principal:active {
+            transform: scale(0.98);
+        }
+
+        /* Container do Conteúdo Principal (Limite de 800px para leitura) */
+        .main-content {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Bloco de Lema e Missão com Bordas e Sombra que dão Profundidade */
+        .identity-block {
+            background: var(--bg-card);
+            border-left: 6px solid var(--primary-dark);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            border-radius: 0 8px 8px 0;
+            padding: 35px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .identity-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .identity-item h2 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--primary-light);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .identity-item p {
+            font-family: var(--font-serif); 
+            font-size: 1.2rem;
+            color: var(--text-main);
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        /* Carrossel Horizontal Estilo Landing Page */
+        .carrossel-section {
+            width: 100%;
+            background-color: #e2e8f0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 40px 0;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carrossel-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 50px; 
+            position: relative;
+        }
+
+        .carrossel-wrapper {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .carrossel-trilho {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+            gap: 20px;
+        }
+
+        /* Cartões internos do Carrossel */
+        .carrossel-card {
+            min-width: calc(50% - 10px); 
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .carrossel-card h3 {
+            font-size: 18px;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .carrossel-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .btn-classe-link {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-hover);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-classe-link:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Setas de Controle do Carrossel */
+        .carrossel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-dark);
+            color: #ffffff;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background-color 0.2s;
+        }
+
+        .carrossel-btn:hover {
+            background-color: var(--accent);
+            color: var(--primary-dark);
+        }
+
+        .btn-prev { left: 10px; }
+        .btn-next { right: 10px; }
+
+        /* Quadro de Avisos Vibrante */
+        .avisos-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 35px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent); 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .aviso-item {
+            padding: 18px 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .aviso-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .aviso-meta {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent-hover);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .aviso-text {
+            font-size: 15.5px;
+            color: var(--text-main);
+        }
+
+        /* DESTAQUES DO TRIMESTRE */
+        .quadro-honra {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 35px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .honra-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .honra-box {
+            background: #f8fafc;
+            padding: 22px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--accent); 
+        }
+
+        .honra-box .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .honra-box .titulo {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* Botões de Links Rápidos Estilo Cards da ECC */
+        .quick-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .link-card {
+            background: var(--primary-dark);
+            border-radius: 8px;
+            padding: 22px;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(15, 28, 63, 0.08);
+        }
+
+        .link-card:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .link-card h4 {
+            font-size: 16px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .link-card span {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* Rodapé Marinho Elegante */
+        footer {
+            text-align: center;
+            padding: 45px 20px;
+            font-size: 13.5px;
+            color: #94a3b8;
+            background-color: var(--primary-dark);
+            border-top: 4px solid var(--accent);
+            margin-top: 60px;
+        }
+
+        footer p {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Ajustes de Responsividade para Celulares */
+        @media (max-width: 680px) {
+            .hero { height: 160px; } 
+            .welcome-block h1 { font-size: 2.0rem; }
+            .welcome-block p { font-size: 1.05rem; }
+            .nav-container { padding: 14px 20px; }
+            nav { right: 20px; width: calc(100% - 40px); } /* Ocupa quase toda a largura no celular */
+            .identity-row, .honra-row, .quick-links { grid-template-columns: 1fr; gap: 20px; }
+            .main-content { margin: 25px auto; }
+            .identity-block { border-radius: 8px; border-left: none; border-top: 6px solid var(--primary-dark); margin-bottom: 0; }
+            .carrossel-card { min-width: 100%; } 
+            .carrossel-container { padding: 0 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portal<span>EBD</span></a>
+            
+            <button class="menu-toggle" id="menuBtn" aria-label="Abrir Menu">☰</button>
+            
+            <nav id="navMenu">
+                <a href="index.html" class="active">Início</a>
+                <a href="quem-somos.html">Quem Somos</a>
+                <a href="estudos.html">Estudos</a>
+                <a href="classes.html">Classes</a>
+                <a href="pedido.html">Revistas</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="heroSlider">
+        <a href="sobre-a-licao.html">
+            <img src="imagens/banner-topo.jpg" alt="Banner EBD - Livro de Daniel" class="hero-slide active">
+        </a>
+        <a href="sobre-a-licao.html">
+            <img src="imagens/banner-revista.jpg" alt="Banner Revistas - Conheça a Lição" class="hero-slide">
+        </a>
+    </section>
+
+    <main class="main-content">
+        
+        <section class="welcome-block">
+            <h1>Escola Bíblica Dominical</h1>
+            <p>Igreja Evangélica Assembleia de Deus no Amazonas — Área 111</p>
+            <a href="pedido.html" class="btn-principal">Fazer Pedido da Revista</a>
+        </section>
+
+        <section class="identity-block">
+            <div class="identity-row">
+                <div class="identity-item">
+                    <h2>Missão da Igreja da Torre</h2>
+                    <p>“Amar a Deus acima de tudo e ao próximo como a mim mesmo.”</p>
+                </div>
+                <div class="identity-item">
+                    <h2>Lema da EBD</h2>
+                    <p>“Semeando o amor de Deus, formando discípulos e vivendo a Palavra.”</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <section class="carrossel-section">
+        <div class="carrossel-container">
+            <button class="carrossel-btn btn-prev" id="btnPrev">❮</button>
+            
+            <div class="carrossel-wrapper">
+                <div class="carrossel-trilho" id="carrosselTrilho">
+                    
+                    <div class="carrossel-card">
+                        <div>
+                            <h3>Estrela da Manhã</h3>
+                            <p>Classe especial voltada para o público feminino. Estudos e reflexões sob a perspectiva das mulheres cristãs.</p>
+                        </div>
+                        <a href="classes.html" class="btn-classe-link">Ver Detalhes →</a>
+                    </div>
+
+                    <div class="carrossel-card">
+                        <div>
+                            <h3>Jóias Preciosas</h3>
+                            <p>Segunda turma dedicada às mulheres, com foco em comunhão, edificação familiar e aplicação prática da Palavra.</p>
+                        </div>
+                        <a href="classes.html" class="btn-classe-link">Ver Detalhes →</a>
+                    </div>
+
+                    <div class="carrossel-card">
+                        <div>
+                            <h3>Maçarocas</h3>
+                            <p>Classe tradicional voltada para o público masculino. Debates e ensinamentos sobre os desafios do homem cristão.</p>
+                        </div>
+                        <a href="classes.html" class="btn-classe-link">Ver Detalhes →</a>
+                    </div>
+
+                    <div class="carrossel-card">
+                        <div>
+                            <h3>Jovens e Adolescentes</h3>
+                            <p>Ensino dinâmico focado nas necessidades, dúvidas e fortalecimento espiritual da nossa juventude.</p>
+                        </div>
+                        <a href="classes.html" class="btn-classe-link">Ver Detalhes →</a>
+                    </div>
+
+                    <div class="carrossel-card">
+                        <div>
+                            <h3>Crianças</h3>
+                            <p>Espaço lúdico e didático preparado para introduzir os fundamentos da fé na infância com muito amor.</p>
+                        </div>
+                        <a href="classes.html" class="btn-classe-link">Ver Detalhes →</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <button class="carrossel-btn btn-next" id="btnNext">❯</button>
+        </div>
+    </section>
+
+    <main class="main-content" style="margin-top: 0;">
+        <section class="avisos-panel">
+            <div class="section-title">📢 Quadro de Avisos</div>
+            
+            <div class="aviso-item">
+                <div class="aviso-meta">Pedidos de Revistas</div>
+                <div class="aviso-text">Lembramos a todos os alunos e professores que o prazo final para o envio dos pedidos de revistas deste trimestre se encerra no dia <strong>01/07/2026 às 8h</strong>. Não deixe para a última hora!</div>
+            </div>
+
+            <div class="aviso-item" style="display: none;">
+                <div class="aviso-meta">Aviso Financeiro</div>
+                <div class="aviso-text">Os pagamentos das revistas devem ser efetuados via PIX para a irmã Raquel dos Santos Rocha (Chave nas instruções da página de pedidos). Favor encaminhar o comprovante.</div>
+            </div>
+
+            <div class="aviso-item" style="display: none;">
+                <div class="aviso-meta">Reunião de Professores</div>
+                <div class="aviso-text">Próximo sábado haverá nosso alinhamento pedagógico e devocional no templo. Contamos com a presença de todos os líderes de classe.</div>
+            </div>
+        </section>
+
+        <section class="quadro-honra">
+            <div class="section-title">🏆 Destaques do Trimestre</div>
+            <div class="honra-row">
+                <div class="honra-box">
+                    <div class="label">Classe Campeã do 2º Trimestre</div>
+                    <div class="titulo">Maçarocas</div>
+                </div>
+                
+                <div class="honra-box" style="text-align: left;">
+                    <div class="label" style="text-align: center; margin-bottom: 15px;">Destaques do Trimestre</div>
+                    <ul style="list-style: none; padding: 0; line-height: 2.2; font-size: 17px; color: var(--primary-dark); font-weight: 500;">
+                        <li><span style="color: var(--accent); margin-right: 10px;">★</span> Evangelina</li>
+                        <li><span style="color: var(--accent); margin-right: 10px;">★</span> Maria Laura</li>
+                        <li><span style="color: var(--accent); margin-right: 10px;">★</span> Nivane</li>
+                        <li><span style="color: var(--accent); margin-right: 10px;">★</span> Luendrya</li>
+                        <li><span style="color: var(--accent); margin-right: 10px;">★</span> Pr. Ronildo</li>
+                        <li><span style="color: var(--accent); margin-right: 10px;">★</span> Dc. Silvano</li>
+                        <li><span style="color: var(--accent); margin-right: 10px;">★</span> Hildo</li>
+                        <li><span style="color: var(--accent); margin-right: 10px;">★</span> Valdiney</li>
+                        <li><span style="color: var(--accent); margin-right: 10px;">★</span> Yone</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="quick-links">
+            <a href="estudos.html" class="link-card">
+                <h4>Esboços e Materiais de Apoio</h4>
+                <span>→</span>
+            </a>
+            <a href="classes.html" class="link-card">
+                <h4>Conhecer Todas as Classes</h4>
+                <span>→</span>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Escola Bíblica Dominical | IEADAM - ÁREA 111 | Pr. José Nelson - Igreja da Torre</p> 
+        <p style="margin-top: 5px;">Todo o conteúdo é planejado para o crescimento educacional e edificação cristã dos alunos</p>
+    </footer>
+
+    <script>
+        // --- NOVO CÓDIGO: INTERATIVIDADE DO MENU SUSPENSO ---
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        menuBtn.addEventListener('click', (e) => {
+            navMenu.classList.toggle('open');
+            e.stopPropagation(); // Evita que o clique feche imediatamente
+        });
+
+        // Fecha o menu automaticamente se o usuário clicar fora dele
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && e.target !== menuBtn) {
+                navMenu.classList.remove('open');
+            }
+        });
+
+
+        // --- CÓDIGO DO BANNER ROTATIVO (SLIDER AUTOMÁTICO COM LINKS) ---
+        const slides = document.querySelectorAll('.hero-slide');
+        let slideAtual = 0;
+
+        function proximoSlide() {
+            slides[slideAtual].classList.remove('active');
+            slideAtual = (slideAtual + 1) % slides.length;
+            slides[slideAtual].classList.add('active');
+        }
+
+        setInterval(proximoSlide, 5000);
+
+
+        // --- CÓDIGO DO CARROSSEL DE CLASSES ---
+        const trilho = document.getElementById('carrosselTrilho');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        
+        let posicaoIndex = 0;
+
+        function obterQuantidadePassos() {
+            return window.innerWidth <= 680 ? 1 : 2;
+        }
+
+        btnNext.addEventListener('click', () => {
+            const totalCards = trilho.children.length;
+            const passos = obterQuantidadePassos();
+            
+            if (posicaoIndex < totalCards - passos) {
+                posicaoIndex += passos;
+            } else {
+                posicaoIndex = 0; 
+            }
+            atualizarCarrossel();
+        });
+
+        btnPrev.addEventListener('click', () => {
+            const totalCards = trilho.children.length;
+            const passos = obterQuantidadePassos();
+            
+            if (posicaoIndex > 0) {
+                posicaoIndex -= passos;
+            } else {
+                posicaoIndex = totalCards - passos; 
+            }
+            atualizarCarrossel();
+        });
+
+        function atualizarCarrossel() {
+            const larguraCard = trilho.children[0].getBoundingClientRect().width;
+            const deslocamento = posicaoIndex * (larguraCard + 20);
+            trilho.style.transform = `translateX(-${deslocamento}px)`;
+        }
+
+        window.addEventListener('resize', () => {
+            posicaoIndex = 0;
+            trilho.style.transform = 'translateX(0px)';
+        });
+    </script>
+
+</body>
+</html>

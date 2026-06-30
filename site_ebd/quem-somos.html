@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quem Somos - EBD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Charter:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Identidade Visual Baseada na Educação Cristã Continuada (ECC) com Tipografia Bíblia Online */
+        :root {
+            --primary-dark: #0f1c3f;   /* Azul Marinho Profundo (Identidade ECC) */
+            --primary-light: #1e2e62;  /* Azul intermediário para elementos secundários */
+            --accent: #f59e0b;         /* Dourado/Amarelo Quente (Destaques e Botões ECC) */
+            --accent-hover: #d97706;   /* Tom de ouro mais escuro para efeito hover */
+            --bg-site: #f4f6fa;        /* Fundo suave off-white/gelo */
+            --bg-card: #ffffff;        /* Branco puro para destacar os blocos */
+            --border: #e2e8f0;         
+            --text-main: #0f172a;      /* Texto de leitura nítido */
+            --text-muted: #475569;     
+            
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Charter', Georgia, serif; /* Fonte clássica do Bíblia Online */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-site);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Topo do Site Ajustado para o Menu Suspenso */
+        header {
+            background-color: var(--primary-dark);
+            border-bottom: 3px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(15, 28, 63, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        /* Botão do Menu Hambúrguer */
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+            display: block;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+
+        .menu-toggle:hover {
+            color: var(--accent);
+        }
+
+        /* Estrutura Suspensa Flutuante */
+        nav {
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            background-color: var(--primary-dark);
+            border: 1px solid var(--primary-light);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+            padding: 10px 0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            z-index: 999;
+        }
+
+        /* Ativador do menu */
+        nav.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        nav a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin-left: 0;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background-color 0.2s, color 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        nav a:last-child {
+            border-bottom: none;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Banner de Introdução (Hero) com Contraste Marcante */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
+            padding: 50px 20px;
+            text-align: center;
+            color: #ffffff;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            color: #ffffff;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            font-weight: 400;
+        }
+
+        /* Container do Conteúdo Principal */
+        .main-content {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Bloco de Texto Estilo Leitura Confortável */
+        .text-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 35px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .text-block p {
+            font-size: 16px;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .text-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Destaque para Versículo ou Frase Chave */
+        .quote-box {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--primary-light);
+            background-color: #f8fafc;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        /* Estrutura de Tópicos/Pilares */
+        .pilares-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .pilar-box {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .pilar-box h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pilar-box p {
+            font-size: 14.5px;
+            color: var(--text-muted);
+            margin-bottom: 0;
+            text-align: left;
+        }
+
+        /* Rodapé Marinho Elegante */
+        footer {
+            text-align: center;
+            padding: 45px 20px;
+            font-size: 13.5px;
+            color: #94a3b8;
+            background-color: var(--primary-dark);
+            border-top: 4px solid var(--accent);
+            margin-top: 60px;
+        }
+
+        /* Ajustes de Responsividade para Celulares */
+        @media (max-width: 680px) {
+            .nav-container { padding: 14px 20px; }
+            nav { right: 20px; width: calc(100% - 40px); }
+            .pilares-row { grid-template-columns: 1fr; }
+            .main-content { margin: 25px auto; }
+            .text-block { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portal<span>EBD</span></a>
+            
+            <button class="menu-toggle" id="menuBtn" aria-label="Abrir Menu">☰</button>
+            
+            <nav id="navMenu">
+                <a href="index.html">Início</a>
+                <a href="quem-somos.html" class="active">Quem Somos</a>
+                <a href="estudos.html">Estudos</a>
+                <a href="classes.html">Classes</a>
+                <a href="pedido.html">Revistas</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Nossa Identidade</h1>
+            <p>Conheça a história, a liderança e os pilares da nossa Escola Bíblica Dominical</p>
+        </div>
+    </section>
+
+    <main class="main-content">
+
+        <section class="text-block">
+            <div class="section-title">📖 Quem Somos</div>
+            <p>A Escola Bíblica Dominical (EBD) da Igreja Evangélica Assembleia de Deus no Amazonas — Área 111 (Igreja da Torre), sob a liderança dos pastores, <strong>pr. Samuel Gahu, pra. Flávia Gahu, pr. Alexandre Cunha e pra. Raquel Rocha,</strong> todos sob a liderança dos pastores de Área <strong>Pr. José Nelson e pra. Jandira</strong>.</p>
+            <p>Vale destacar, a EBD é o principal departamento de ensino bíblico, discipulado e formação teológica da nossa comunidade local.</p>
+            
+            <p>Nossa missão diária é edificar vidas através do ensino puro e prático das Sagradas Escrituras, proporcionando um ambiente acolhedor e dinâmico para crianças, adolescentes, jovens, homens e mulheres crescerem espiritualmente e criarem laços de comunhão fraternal.</p>
+
+            <div class="quote-box">
+                "Antes crescei na graça e no conhecimento de nosso Senhor e Salvador, Jesus Cristo. A ele seja dada a glória, assim agora, como no dia da eternidade. Amém." <br>
+                <span style="font-size: 14px; font-weight: 700; display: block; margin-top: 5px;">— 2 Pedro 3:18 (ACF)</span>
+            </div>
+        </section>
+
+        <section class="text-block">
+            <div class="section-title">🎯 Nossos Objetivos</div>
+            <p>Guiados pelo nosso lema e pela visão educacional cristã, estruturamos nossa school sobre pilares fundamentais que visam a transformação do indivíduo e da sociedade:</p>
+            
+            <div class="pilares-row">
+                <div class="pilar-box">
+                    <h4>Evangelização</h4>
+                    <p>Anunciar o plano da salvação em Cristo Jesus a cada aluno, integrando novos membros e fortalecendo a fé dos crentes.</p>
+                </div>
+                <div class="pilar-box">
+                    <h4>Discipulado</h4>
+                    <p>Formar discípulos maduros, moldando o caráter cristão através do estudo bíblico sistemático e contínuo.</p>
+                </div>
+                <div class="pilar-box">
+                    <h4>Comunhão fraternal</h4>
+                    <p>Promover a unidade da igreja, criando um espaço aos Domingos, <strong>entre 9h até 10h30</strong>, onde irmãos compartilham experiências e oram uns pelos outros.</p>
+                </div>
+                <div class="pilar-box">
+                    <h4>Ação Prática</h4>
+                    <p>Incentivar os alunos a viverem a Palavra no cotidiano, servindo ao próximo e brilhando como luz no mundo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="text-block">
+            <div class="section-title">👥 Coordenação e Secretaria</div>
+            <p>Para o perfeito andamento pedagógico, financeiro e administrativo, a nossa EBD conta com uma equipe dedicada na gestão das classes, controle de frequências e distribuição do material trimestral.</p>
+            <p>A coordenação logística e a administração da tesouraria de revistas estão sob a responsabilidade da <strong>pr. Raquel Rocha</strong>, garantindo que cada professor e aluno tenha acesso pontual aos subsídios necessários para o trimestre letivo.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Escola Bíblica Dominical | IEADAM - ÁREA 111 | Pr. José Nelson - Igreja da Torre</p> 
+        <p style="margin-top: 5px; color: #64748b; font-size: 12px;">Todo o conteúdo é planejado para o crescimento educacional e edificação cristã dos alunos</p>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        menuBtn.addEventListener('click', (e) => {
+            navMenu.classList.toggle('open');
+            e.stopPropagation();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && e.target !== menuBtn) {
+                navMenu.classList.remove('open');
+            }
+        });
+    </script>
+
+</body>
+</html>

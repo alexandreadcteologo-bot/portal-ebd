@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fazer Pedido de Revistas - EBD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Charter:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Mesma identidade visual unificada (ECC + Bíblia Online) */
+        :root {
+            --primary-dark: #0f1c3f;   
+            --primary-light: #1e2e62;  
+            --accent: #f59e0b;         
+            --accent-hover: #d97706;   
+            --bg-site: #f4f6fa;        
+            --bg-card: #ffffff;        
+            --border: #e2e8f0;         
+            --text-main: #0f172a;      
+            --text-muted: #475569;     
+            
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Charter', Georgia, serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-site);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Barra de Navegação Superior Ajustada para o Menu Suspenso */
+        header {
+            background-color: var(--primary-dark);
+            border-bottom: 3px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(15, 28, 63, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        /* Botão do Menu Hambúrguer */
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+            display: block;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+
+        .menu-toggle:hover {
+            color: var(--accent);
+        }
+
+        /* Estrutura Suspensa Flutuante */
+        nav {
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            background-color: var(--primary-dark);
+            border: 1px solid var(--primary-light);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+            padding: 10px 0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            z-index: 999;
+        }
+
+        /* Ativador do menu */
+        nav.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        nav a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 12px 20px;
+            margin-left: 0;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background-color 0.2s, color 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        nav a:last-child {
+            border-bottom: none;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Container do Formulário */
+        .main-content {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .container-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 35px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        /* Caixa de Aviso Informativo Estilizada */
+        .aviso-box {
+            background-color: #f8fafc;
+            border-left: 5px solid var(--primary-dark);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 22px;
+            margin-bottom: 30px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .aviso-box p {
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .aviso-box p strong {
+            color: var(--primary-dark);
+        }
+
+        .aviso-box ul {
+            margin-top: 5px;
+            padding-left: 20px;
+            color: var(--text-muted);
+        }
+
+        .aviso-box li {
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .highlight {
+            font-weight: 700;
+            color: var(--accent-hover);
+        }
+
+        /* Elementos e Campos do Formulário */
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary-dark);
+        }
+
+        input[type="text"], select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+            font-family: var(--font-sans);
+            background-color: #f8fafc;
+            color: var(--text-main);
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        input[type="text"]:focus, select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            background-color: #ffffff;
+        }
+
+        .revista-item {
+            background: #f8fafc;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            margin-bottom: 20px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        /* Botões */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
+            transition: background-color 0.2s, transform 0.1s;
+            font-family: var(--font-sans);
+        }
+
+        .btn-add {
+            background-color: transparent;
+            color: var(--primary-dark);
+            border: 2px dashed var(--primary-dark);
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .btn-add:hover {
+            background-color: rgba(15, 28, 63, 0.04);
+        }
+
+        .btn-submit {
+            background-color: var(--accent);
+            color: var(--primary-dark);
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-hover);
+            color: #ffffff;
+        }
+
+        .btn-remove {
+            background-color: #ef4444;
+            color: white;
+            padding: 6px 12px;
+            font-size: 12px;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-remove:hover {
+            background-color: #dc2626;
+        }
+
+        /* Caixa de Sucesso */
+        .success-box {
+            display: none;
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .success-box h3 {
+            color: #10b981;
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .success-box p {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .pix-code {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            background-color: #f1f5f9;
+            padding: 10px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 10px 0 25px 0;
+            border: 1px dashed var(--border);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-back {
+            background-color: var(--primary-dark);
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-back:hover {
+            background-color: var(--primary-light);
+            color: var(--accent);
+        }
+
+        /* Responsividade para Celulares */
+        @media (max-width: 680px) {
+            .nav-container { padding: 14px 20px; }
+            nav { right: 20px; width: calc(100% - 40px); }
+            .main-content { margin: 20px auto; }
+            .container-box { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portal<span>EBD</span></a>
+            
+            <button class="menu-toggle" id="menuBtn" aria-label="Abrir Menu">☰</button>
+            
+            <nav id="navMenu">
+                <a href="index.html">Início</a>
+                <a href="quem-somos.html">Quem Somos</a>
+                <a href="estudos.html">Estudos</a>
+                <a href="classes.html">Classes</a>
+                <a href="pedido.html" class="active">Revistas</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container-box">
+            
+            <div id="conteudo-formulario">
+                <h2>PEDIDO DE REVISTAS</h2>
+                
+                <div class="aviso-box">
+                    <p><strong>Querido aluno e aluna da EBD,</strong></p>
+                    <p>Para fazer o pedido de sua revista, escreva apenas seu nome completo, selecione a revista que gostaria de adquirir e clique no botão enviar.</p>
+                    <p>Receberemos seu pedido até dia <span class="highlight">01/07/2026, às 8h</span>.</p>
+                    <p><strong>PIX:</strong> 92981517272 - Raquel dos Santos Rocha - Nubank</p>
+                    <p><strong>Tabela de Valores:</strong></p>
+                    <ul>
+                        <li>Professor: R$ 12,00</li>
+                        <li>Adolescente: R$ 13,00</li>
+                        <li>Aluno: R$ 11,00</li>
+                    </ul>
+                </div>
+                
+                <form id="pedidoForm" action="https://api.sheetmonkey.io/form/f8Bzz7Wmr5UQXEGPtjYzt5" method="POST">
+                    
+                    <div class="form-group">
+                        <label for="nome">Nome Completo:</label>
+                        <input type="text" id="nome" name="Nome_Completo" required placeholder="Digite seu nome completo">
+                    </div>
+
+                    <div id="lista-revistas">
+                        <div class="revista-item">
+                            <div class="form-group">
+                                <label>Selecione sua Revista:</label>
+                                <select name="Revista_1" required>
+                                    <option value="" disabled selected>Selecione uma opção</option>
+                                    <option value="Professor">Professor (R$ 12,00)</option>
+                                    <option value="Adolescente">Adolescente (R$ 13,00)</option>
+                                    <option value="Aluno">Aluno (R$ 11,00)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Quantidade:</label>
+                                <input type="number" name="Quantidade_1" min="1" value="1" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-add" id="btn-adicionar">+ Adicionar Outra Revista</button>
+                    <button type="submit" class="btn btn-submit" id="btn-enviar-texto">Enviar Pedido</button>
+                </form>
+            </div>
+
+            <div id="tela-sucesso" class="success-box">
+                <h3>🎉 Parabéns!</h3>
+                <p>Seu Pedido foi Recebido com Sucesso!</p>
+                <p>Guarde a chave de pagamento Pix abaixo:</p>
+                <div class="pix-code">92981517272</div>
+                <a href="index.html" class="btn btn-back">Voltar à Página Inicial</a>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // --- LOGA DO MENU SUSPENSO ---
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+
+        menuBtn.addEventListener('click', (e) => {
+            navMenu.classList.toggle('open');
+            e.stopPropagation();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && e.target !== menuBtn) {
+                navMenu.classList.remove('open');
+            }
+        });
+
+        // --- LÓGICA DINÂMICA DO FORMULÁRIO ---
+        let contadorRevistas = 1;
+        const listaRevistas = document.getElementById('lista-revistas');
+        const btnAdicionar = document.getElementById('btn-adicionar');
+        const formulario = document.getElementById('pedidoForm');
+        const conteudoFormulario = document.getElementById('conteudo-formulario');
+        const telaSucesso = document.getElementById('tela-sucesso');
+        const btnEnviarTexto = document.getElementById('btn-enviar-texto');
+
+        btnAdicionar.addEventListener('click', () => {
+            contadorRevistas++;
+            
+            const novoItem = document.createElement('div');
+            novoItem.classList.add('revista-item');
+            novoItem.innerHTML = `
+                <button type="button" class="btn-remove" onclick="removerItem(this)">Remover</button>
+                <div class="form-group">
+                    <label>Tipo de Revista:</label>
+                    <select name="Revista_${contadorRevistas}" required>
+                        <option value="" disabled selected>Selecione uma opção</option>
+                        <option value="Professor">Professor (R$ 12,00)</option>
+                        <option value="Adolescente">Adolescente (R$ 13,00)</option>
+                        <option value="Aluno">Aluno (R$ 11,00)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Quantidade:</label>
+                    <input type="number" name="Quantidade_${contadorRevistas}" min="1" value="1" required>
+                </div>
+            `;
+            listaRevistas.appendChild(novoItem);
+        });
+
+        function removerItem(botao) {
+            botao.parentElement.remove();
+        }
+
+        formulario.addEventListener('submit', function(event) {
+            if (!formulario.checkValidity()) {
+                return;
+            }
+
+            event.preventDefault(); 
+            
+            const confirmacao = confirm("Tem certeza que é somente esse pedido?");
+            
+            if (confirmacao) {
+                btnEnviarTexto.innerText = "Enviando...";
+                btnEnviarTexto.disabled = true;
+
+                fetch(formulario.action, {
+                    method: 'POST',
+                    body: new FormData(formulario)
+                })
+                .then(response => {
+                    conteudoFormulario.style.display = 'none';
+                    telaSucesso.style.display = 'block';
+                })
+                .catch(error => {
+                    alert("Houve um erro ao enviar seu pedido. Por favor, tente novamente.");
+                    btnEnviarTexto.innerText = "Enviar Pedido";
+                    btnEnviarTexto.disabled = false;
+                    console.error('Erro:', error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

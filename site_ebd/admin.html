@@ -1,0 +1,490 @@
+<!DOC<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Portal EBD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0f1c3f;
+            --primary-light: #1e2e62;
+            --accent: #f59e0b;
+            --accent-hover: #d97706;
+            --bg-site: #f4f6fa;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-site); color: var(--text-main); -webkit-font-smoothing: antialiased; }
+
+        /* TELA DE LOGIN MASTER */
+        #login-screen { max-width: 400px; margin: 150px auto padding: 30px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); text-align: center; display: block; }
+        #login-screen h2 { margin-bottom: 10px; color: var(--primary-dark); }
+        #login-screen p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+        
+        /* ESTRUTURA DO DASHBOARD (DOIS PAINÉIS) */
+        #main-panel { display: none; height: 100vh; grid-template-columns: 260px 1fr; }
+
+        /* PAINEL ESQUERDO: MENU LATERAL */
+        .sidebar { background-color: var(--primary-dark); color: white; padding: 25px 0; display: flex; flex-direction: column; justify-content: space-between; border-right: 3px solid var(--accent); }
+        .sidebar-header { padding: 0 20px 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        .sidebar-header h2 { font-size: 18px; color: #ffffff; letter-spacing: 0.5px; }
+        .sidebar-header h2 span { color: var(--accent); }
+        
+        .sidebar-menu { display: flex; flex-direction: column; gap: 4px; margin-top: 20px; flex-grow: 1; }
+        .menu-link { display: block; color: #cbd5e1; text-decoration: none; padding: 14px 20px; font-weight: 500; font-size: 14px; transition: all 0.2s; border-left: 4px solid transparent; cursor: pointer; }
+        .menu-link:hover { background-color: rgba(255, 255, 255, 0.05); color: #ffffff; }
+        .menu-link.active { background-color: var(--primary-light); color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+
+        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 10px; }
+
+        /* PAINEL DIREITO: ÁREA DE TRABALHO CONTEÚDO */
+        .content-area { padding: 40px; overflow-y: auto; background-color: var(--bg-site); }
+        .content-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 35px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02); display: none; }
+        .content-card.active { display: block; }
+        
+        .content-card h2 { color: var(--primary-dark); font-size: 22px; margin-bottom: 25px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); display: flex; align-items: center; gap: 10px; }
+
+        /* COMPONENTES DE FORMULÁRIO */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; font-weight: 600; color: var(--primary-dark); margin-bottom: 8px; }
+        input[type="text"], input[type="password"], textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 14px; background-color: #f8fafc; color: var(--text-main); }
+        input[type="text"]:focus, input[type="password"]:focus, textarea:focus { outline: none; border-color: var(--primary-light); background-color: #ffffff; }
+        textarea { resize: vertical; height: 110px; }
+
+        /* BOTÕES */
+        button { background-color: var(--primary-dark); color: white; border: none; padding: 12px 24px; font-size: 14px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: background-color 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+        button:hover { background-color: var(--primary-light); }
+        .btn-success { background-color: var(--success); width: 100%; padding: 15px; font-size: 15px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+        .btn-success:hover { background-color: #059669; }
+        .btn-outline { background: transparent; border: 2px dashed var(--primary-dark); color: var(--primary-dark); width: 100%; }
+        .btn-outline:hover { background: rgba(15, 28, 63, 0.04); }
+        .btn-connect { background-color: var(--accent); color: var(--primary-dark); font-size: 12px; padding: 8px 12px; }
+        .btn-connect:hover { background-color: var(--accent-hover); color: white; }
+
+        /* LISTAS DE RESUMO DO QUE JÁ ESTÁ SALVO */
+        .preview-section { margin-top: 30px; background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; padding: 20px; }
+        .preview-section h3 { font-size: 14px; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .item-lista { background: white; padding: 12px 15px; border-radius: 4px; margin-bottom: 10px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+        .btn-delete { background: var(--danger); padding: 5px 10px; font-size: 11px; border-radius: 4px; }
+        .btn-delete:hover { background: #dc2626; }
+
+        /* BARRA DE STATUS GLOBAL */
+        #status-msg { padding: 12px; border-radius: 6px; font-weight: 600; text-align: center; font-size: 14px; margin-bottom: 20px; display: none; }
+        .status-success { background-color: #ecfdf5; color: var(--success); border: 1px solid #a7f3d0; }
+        .status-error { background-color: #fef2f2; color: var(--danger); border: 1px solid #fca5a5; }
+
+        /* POP-UP MODAL (CONEXÃO GITHUB) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 28, 63, 0.6); z-index: 2000; align-items: center; justify-content: center; }
+        .modal.open { display: flex; }
+        .modal-content { background: white; padding: 30px; border-radius: 8px; width: 100%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); position: relative; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 22px; cursor: pointer; color: var(--text-muted); }
+        .close-modal:hover { color: var(--danger); }
+    </style>
+</head>
+<body>
+
+    <!-- 1. TELA DE LOGIN INICIAL -->
+    <div id="login-screen">
+        <h2>🔒 Painel Admin EBD</h2>
+        <p>Área restrita de gestão educacional e avisos</p>
+        <div class="form-group">
+            <input type="password" id="senha-master" placeholder="Digite a senha master">
+        </div>
+        <button onclick="verificarLogin()" style="width: 100%;">Entrar no Sistema</button>
+    </div>
+
+    <!-- 2. ESTRUTURA GERAL DO PAINEL (GRID LATERAL/CONTEÚDO) -->
+    <div id="main-panel">
+        
+        <!-- PAINEL ESQUERDO: LINKS DO MENU -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Painel<span>EBD</span></h2>
+                <p style="font-size: 11px; color: #94a3b8; margin-top: 5px;">Igreja da Torre — Área 111</p>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-link active" onclick="mudarAba('tab-avisos', this)">📢 Quadro de Avisos</div>
+                <div class="menu-link" onclick="mudarAba('tab-estudos', this)">📝 Estudos & Subsídios</div>
+                <div class="menu-link" onclick="mudarAba('tab-aniversariantes', this)">🎂 Aniversariantes do Mês</div>
+                <div class="menu-link" onclick="mudarAba('tab-destaquess', this)">🏆 Destaques do Trimestre</div>
+                <div class="menu-link" onclick="mudarAba('tab-classe-campea', this)">🥇 Classe Campeã</div>
+                <div class="menu-link" onclick="mudarAba('tab-banner', this)">🖼️ Atualizar Banner-Topo</div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="btn-connect" onclick="abrirModalConexao()">🔌 Configurar Conexão</button>
+                <button class="btn-success" onclick="publicarAlteracoes()" style="padding: 10px; font-size:12px;">🚀 Publicar Site</button>
+            </div>
+        </aside>
+
+        <!-- PAINEL DIREITO: CONTEÚDO DINÂMICO QUE ENTRA EM BRANCO -->
+        <main class="content-area">
+            <div id="status-msg"></div>
+
+            <!-- TAB: QUADRO DE AVISOS -->
+            <div id="tab-avisos" class="content-card active">
+                <h2>📢 Atualizar Quadro de Avisos</h2>
+                <div class="form-group">
+                    <label>Título do Novo Aviso:</label>
+                    <input type="text" id="aviso-titulo" placeholder="Ex: Prazo Final das Revistas">
+                </div>
+                <div class="form-group">
+                    <label>Texto da Mensagem:</label>
+                    <textarea id="aviso-texto" placeholder="Digite as informações completas do aviso..."></textarea>
+                </div>
+                <button onclick="adicionarAviso()">Adicionar Novo Aviso</button>
+
+                <div class="preview-section">
+                    <h3>Avisos Ativos no Momento</h3>
+                    <div id="lista-avisos"></div>
+                </div>
+            </div>
+
+            <!-- TAB: ESTUDOS & SUBSÍDIOS -->
+            <div id="tab-estudos" class="content-card">
+                <h2>📝 Atualizar Estudos & Subsídios</h2>
+                <div class="form-group">
+                    <label>Categoria:</label>
+                    <input type="text" id="estudo-categoria" placeholder="Ex: Subsídio Teológico ou Leitura Complementar">
+                </div>
+                <div class="form-group">
+                    <label>Título do Estudo:</label>
+                    <input type="text" id="estudo-titulo" placeholder="Ex: Daniel: Panorama Histórico">
+                </div>
+                <div class="form-group">
+                    <label>Descrição Breve:</label>
+                    <textarea id="estudo-desc" placeholder="Resumo curto sobre o material de apoio..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Link de Destino (URL do Artigo ou PDF):</label>
+                    <input type="text" id="estudo-link" placeholder="https://exemplo.com/material.pdf">
+                </div>
+                <button onclick="adicionarEstudo()">Adicionar Material de Apoio</button>
+
+                <div class="preview-section">
+                    <h3>Materiais Disponíveis no Momento</h3>
+                    <div id="lista-estudos"></div>
+                </div>
+            </div>
+
+            <!-- TAB: ANIVERSARIANTES DO MÊS -->
+            <div id="tab-aniversariantes" class="content-card">
+                <h2>🎂 Cadastrar Aniversariantes do Mês</h2>
+                <div class="form-group">
+                    <label>Nome Completo do Aluno/Líder:</label>
+                    <input type="text" id="niver-nome" placeholder="Ex: Irmã Maria Laura">
+                </div>
+                <div class="form-group">
+                    <label>Dia do Aniversário:</label>
+                    <input type="text" id="niver-dia" placeholder="Ex: 15/07">
+                </div>
+                <button onclick="adicionarAniversariante()">Adicionar Aniversariante</button>
+
+                <div class="preview-section">
+                    <h3>Aniversariantes Listados</h3>
+                    <div id="lista-aniversariantes"></div>
+                </div>
+            </div>
+
+            <!-- TAB: DESTAQUES DO TRIMESTRE -->
+            <div id="tab-destaquess" class="content-card">
+                <h2>🏆 Adicionar Destaques do Trimestre</h2>
+                <div class="form-group">
+                    <label>Nome do Aluno ou Líder Destaque:</label>
+                    <input type="text" id="destaque-nome" placeholder="Ex: Diácono Silvano">
+                </div>
+                <button onclick="adicionarDestaqueEstrela()">Adicionar ao Quadro de Honra</button>
+
+                <div class="preview-section">
+                    <h3>Alunos Estrelas Atuais</h3>
+                    <div id="lista-destaques-estrelas"></div>
+                </div>
+            </div>
+
+            <!-- TAB: CLASSE CAMPEÃ -->
+            <div id="tab-classe-campea" class="content-card">
+                <h2>🥇 Classe Campeã do Trimestre</h2>
+                <div class="form-group">
+                    <label>Nome da Classe Campeã:</label>
+                    <input type="text" id="campea-nome" placeholder="Ex: Maçarocas">
+                </div>
+                <div class="form-group">
+                    <label>Rótulo/Subtítulo do Trimestre:</label>
+                    <input type="text" id="campea-label" placeholder="Ex: Classe Campeã do 2º Trimestre">
+                </div>
+                <button onclick="salvarClasseCampeao()">Salvar Registro Atual</button>
+
+                <div class="preview-section">
+                    <h3>Registro Gravado Atualmente</h3>
+                    <div id="preview-campea" style="font-size:14px; color:var(--text-muted);">Nenhum dado salvo.</div>
+                </div>
+            </div>
+
+            <!-- TAB: BANNER TOPO -->
+            <div id="tab-banner" class="content-card">
+                <h2>🖼️ Atualizar Imagens do Banner-Topo (Links)</h2>
+                <p style="font-size:13px; color:var(--text-muted); margin-bottom: 20px;">Insira a URL direta das imagens hospedadas na internet para rotatividade automática do banner inicial.</p>
+                <div class="form-group">
+                    <label>Link da Imagem do Banner 1 (Topo Inicial):</label>
+                    <input type="text" id="banner-url-1" placeholder="Ex: imagens/banner-topo.jpg">
+                </div>
+                <div class="form-group">
+                    <label>Link da Imagem do Banner 2 (Revistas/Lição):</label>
+                    <input type="text" id="banner-url-2" placeholder="Ex: imagens/banner-revista.jpg">
+                </div>
+                <button onclick="salvarBanners()">Atualizar Links do Slider</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- POP-UP FLUTUANTE (MODAL CONEXÃO GITHUB) -->
+    <div id="modal-conexao" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="fecharModalConexao()">&times;</span>
+            <h2 style="font-size:18px; margin-bottom:15px; border-bottom: 2px solid var(--accent); padding-bottom:5px;">🔌 Conectar Banco de Dados</h2>
+            <div class="form-group">
+                <label>Usuário do GitHub:</label>
+                <input type="text" id="gh-user" placeholder="Ex: seu-usuario-github">
+            </div>
+            <div class="form-group">
+                <label>Nome do Repositório:</label>
+                <input type="text" id="gh-repo" placeholder="Ex: portal-ebd">
+            </div>
+            <div class="form-group">
+                <label>Token Secreto (PAT):</label>
+                <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+            </div>
+            <button onclick="salvarConfigGitHub()" class="btn-success" style="padding:10px;">Validar e Conectar</button>
+        </div>
+    </div>
+
+    <script>
+        const SENHA_CORRETA = "EbdArea111*";
+
+        let dadosSite = {
+            avisos: [],
+            estudos: [],
+            aniversariantes: [],
+            destaquesEstrelas: [],
+            classeCampeao: { nome: "", label: "" },
+            banners: { img1: "", img2: "" }
+        };
+
+        let shaArquivo = "";
+
+        function verificarLogin() {
+            const senha = document.getElementById('senha-master').value;
+            if(senha === SENHA_CORRETA) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-panel').style.display = 'grid';
+                carregarConfigLocais();
+                puxarDadosAtuaisGitHub();
+            } else {
+                alert("Senha incorreta administrativa!");
+            }
+        }
+
+        // ALTERAÇÃO ENTRE AS ABAS DINÂMICAS À ESQUERDA
+        function mudarAba(idAba, elementoMenu) {
+            document.querySelectorAll('.content-card').forEach(card => card.classList.remove('active'));
+            document.querySelectorAll('.menu-link').forEach(link => link.classList.remove('active'));
+            
+            document.getElementById(idAba).classList.add('active');
+            elementoMenu.classList.add('active');
+            limparMensagemStatus();
+        }
+
+        function abrirModalConexao() { document.getElementById('modal-conexao').classList.add('open'); }
+        function fecharModalConexao() { document.getElementById('modal-conexao').classList.remove('open'); }
+
+        function carregarConfigLocais() {
+            if(localStorage.getItem('ebd_user')) document.getElementById('gh-user').value = localStorage.getItem('ebd_user');
+            if(localStorage.getItem('ebd_repo')) document.getElementById('gh-repo').value = localStorage.getItem('ebd_repo');
+            if(localStorage.getItem('ebd_token')) document.getElementById('gh-token').value = localStorage.getItem('ebd_token');
+        }
+
+        function salvarConfigGitHub() {
+            localStorage.setItem('ebd_user', document.getElementById('gh-user').value);
+            localStorage.setItem('ebd_repo', document.getElementById('gh-repo').value);
+            localStorage.setItem('ebd_token', document.getElementById('gh-token').value);
+            fecharModalConexao();
+            mostrarStatus("Conexão salva com sucesso e vinculada ao navegador!", "success");
+            puxarDadosAtuaisGitHub();
+        }
+
+        function mostrarStatus(texto, tipo) {
+            const msg = document.getElementById('status-msg');
+            msg.innerText = texto;
+            msg.className = tipo === "success" ? "status-success" : "status-error";
+            msg.style.display = "block";
+        }
+
+        function limparMensagemStatus() { document.getElementById('status-msg').style.display = 'none'; }
+
+        async function puxarDadosAtuaisGitHub() {
+            const user = localStorage.getItem('ebd_user');
+            const repo = localStorage.getItem('ebd_repo');
+            const token = localStorage.getItem('ebd_token');
+            if(!user || !repo || !token) return;
+
+            const url = `https://api.github.com/repos/${user}/${repo}/contents/dados.json`;
+            try {
+                const res = await fetch(url, { headers: { "Authorization": `token ${token}` } });
+                if(res.ok) {
+                    const json = await res.json();
+                    shaArquivo = json.sha;
+                    dadosSite = JSON.parse(atob(json.content));
+                    atualizarInterfacePainel();
+                }
+            } catch (err) { console.log("Arquivo de dados inicial será criado no primeiro commit."); }
+        }
+
+        function atualizarInterfacePainel() {
+            // Renderização de Avisos
+            const divAvisos = document.getElementById('lista-avisos');
+            divAvisos.innerHTML = "";
+            dadosSite.avisos.forEach((item, index) => {
+                divAvisos.innerHTML += `<div class="item-lista"><div><strong>${item.titulo}</strong>: ${item.texto}</div><button class="btn-delete" onclick="removerAviso(${index})">Remover</button></div>`;
+            });
+
+            // Renderização de Estudos
+            const divEstudos = document.getElementById('lista-estudos');
+            divEstudos.innerHTML = "";
+            dadosSite.estudos?.forEach((item, index) => {
+                divEstudos.innerHTML += `<div class="item-lista"><div>[${item.categoria}] <strong>${item.titulo}</strong></div><button class="btn-delete" onclick="removerEstudo(${index})">Remover</button></div>`;
+            });
+
+            // Renderização de Aniversariantes
+            const divNiver = document.getElementById('lista-aniversariantes');
+            divNiver.innerHTML = "";
+            dadosSite.aniversariantes.forEach((item, index) => {
+                divNiver.innerHTML += `<div class="item-lista"><div><strong>${item.nome}</strong> - Dia ${item.dia}</div><button class="btn-delete" onclick="removerAniversariante(${index})">Remover</button></div>`;
+            });
+
+            // Renderização de Destaques Estrelas
+            const divEstrelas = document.getElementById('lista-destaques-estrelas');
+            divEstrelas.innerHTML = "";
+            dadosSite.destaquesEstrelas?.forEach((nome, index) => {
+                divEstrelas.innerHTML += `<div class="item-lista"><div>★ ${nome}</div><button class="btn-delete" onclick="removerDestaqueEstrela(${index})">Remover</button></div>`;
+            });
+
+            // Classe Campeã Preview
+            if(dadosSite.classeCampeao?.nome) {
+                document.getElementById('preview-campea').innerHTML = `<strong>${dadosSite.classeCampeao.label}:</strong> ${dadosSite.classeCampeao.nome}`;
+            }
+
+            // Banners Inputs Fill
+            if(dadosSite.banners) {
+                document.getElementById('banner-url-1').value = dadosSite.banners.img1 || "";
+                document.getElementById('banner-url-2').value = dadosSite.banners.img2 || "";
+            }
+        }
+
+        // ADICIONAR E RETORNAR FORMULÁRIOS EM BRANCO (CONFORME REQUISITADO)
+        function adicionarAviso() {
+            const titulo = document.getElementById('aviso-titulo').value;
+            const texto = document.getElementById('aviso-texto').value;
+            if(!titulo || !texto) return alert("Insira todos os dados.");
+            dadosSite.avisos.push({ titulo, texto });
+            document.getElementById('aviso-titulo').value = "";
+            document.getElementById('aviso-texto').value = "";
+            atualizarInterfacePainel();
+        }
+        function removerAviso(index) { dadosSite.avisos.splice(index, 1); atualizarInterfacePainel(); }
+
+        function adicionarEstudo() {
+            const cat = document.getElementById('estudo-categoria').value;
+            const tit = document.getElementById('estudo-titulo').value;
+            const desc = document.getElementById('estudo-desc').value;
+            const link = document.getElementById('estudo-link').value;
+            if(!cat || !tit || !link) return alert("Campos categoria, título e link são obrigatórios!");
+            if(!dadosSite.estudos) dadosSite.estudos = [];
+            dadosSite.estudos.push({ categoria: cat, titulo: tit, desc, link });
+            document.getElementById('estudo-categoria').value = "";
+            document.getElementById('estudo-titulo').value = "";
+            document.getElementById('estudo-desc').value = "";
+            document.getElementById('estudo-link').value = "";
+            atualizarInterfacePainel();
+        }
+        function removerEstudo(index) { dadosSite.estudos.splice(index, 1); atualizarInterfacePainel(); }
+
+        function adicionarAniversariante() {
+            const nome = document.getElementById('niver-nome').value;
+            const dia = document.getElementById('niver-dia').value;
+            if(!nome || !dia) return alert("Preencha o nome e o dia.");
+            dadosSite.aniversariantes.push({ nome, dia });
+            document.getElementById('niver-nome').value = "";
+            document.getElementById('niver-dia').value = "";
+            atualizarInterfacePainel();
+        }
+        function removerAniversariante(index) { dadosSite.aniversariantes.splice(index, 1); atualizarInterfacePainel(); }
+
+        function adicionarDestaqueEstrela() {
+            const nome = document.getElementById('destaque-nome').value;
+            if(!nome) return alert("Digite o nome.");
+            if(!dadosSite.destaquesEstrelas) dadosSite.destaquesEstrelas = [];
+            dadosSite.destaquesEstrelas.push(nome);
+            document.getElementById('destaque-nome').value = "";
+            atualizarInterfacePainel();
+        }
+        function removerDestaqueEstrela(index) { dadosSite.destaquesEstrelas.splice(index, 1); atualizarInterfacePainel(); }
+
+        function salvarClasseCampeao() {
+            const nome = document.getElementById('campea-nome').value;
+            const label = document.getElementById('campea-label').value;
+            if(!nome || !label) return alert("Preencha ambos os campos.");
+            dadosSite.classeCampeao = { nome, label };
+            document.getElementById('campea-nome').value = "";
+            document.getElementById('campea-label').value = "";
+            atualizarInterfacePainel();
+        }
+
+        function salvarBanners() {
+            const img1 = document.getElementById('banner-url-1').value;
+            const img2 = document.getElementById('banner-url-2').value;
+            dadosSite.banners = { img1, img2 };
+            mostrarStatus("Links de banners gravados na memória do painel!", "success");
+        }
+
+        // ENVIAR DEFINITIVAMENTE PARA O REPOSITÓRIO GITHUB DO NETLIFY
+        async function publicarAlteracoes() {
+            const user = localStorage.getItem('ebd_user');
+            const repo = localStorage.getItem('ebd_repo');
+            const token = localStorage.getItem('ebd_token');
+            if(!user || !repo || !token) return alert("Abra a aba de conexão e insira suas chaves do GitHub.");
+
+            mostrarStatus("Conectando e enviando atualizações ao repositório GitHub...", "success");
+
+            const url = `https://api.github.com/repos/${user}/${repo}/contents/dados.json`;
+            const emBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(dadosSite, null, 2))));
+            
+            const body = { message: "Sync via Painel Modular EBD", content: emBase64 };
+            if(shaArquivo) body.sha = shaArquivo;
+
+            try {
+                const res = await fetch(url, {
+                    method: "PUT",
+                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+                if(res.ok) {
+                    const data = await res.json();
+                    shaArquivo = data.content.sha;
+                    mostrarStatus("🎉 Sincronização Concluída! O Netlify já está atualizando os painéis em tempo real.", "success");
+                } else { mostrarStatus("Erro operacional de resposta da API do GitHub.", "error"); }
+            } catch(e) { mostrarStatus("Erro crítico de conexão com a nuvem.", "error"); }
+        }
+    </script>
+</body>
+</html>

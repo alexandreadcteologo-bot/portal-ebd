@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre a Lição - Livro de Daniel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Charter:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-dark: #0f1c3f;   
+            --primary-light: #1e2e62;  
+            --accent: #f59e0b;         
+            --accent-hover: #d97706;   
+            --bg-site: #f4f6fa;        
+            --bg-card: #ffffff;        
+            --border: #e2e8f0;         
+            --text-main: #0f172a;      
+            --text-muted: #475569;     
+            
+            --font-sans: 'Inter', sans-serif;
+            --font-serif: 'Charter', Georgia, serif; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-site);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            background-color: var(--primary-dark);
+            border-bottom: 3px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(15, 28, 63, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav a {
+            color: #e2e8f0;
+            text-decoration: none;
+            margin-left: 22px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+        }
+
+        /* Banner de Introdução da Página Interna */
+        .page-header {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .page-header h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Container de Leitura Aprofundada (800px) */
+        .main-content {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .article-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        p.intro-text {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        p {
+            font-size: 16px;
+            color: var(--text-main);
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* Bloco de Citação Bíblica Online */
+        .scripture-quote {
+            background: #f8fafc;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin: 25px 0;
+            font-family: var(--font-serif);
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--primary-dark);
+        }
+
+        .scripture-reference {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-style: normal;
+        }
+
+        /* Tabela Resumo dos Dados Introdutórios */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 15px;
+        }
+
+        .info-table th, .info-table td {
+            border: 1px solid var(--border);
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .info-table th {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            font-weight: 600;
+            width: 30%;
+        }
+
+        .info-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* Lista de tópicos práticos */
+        .practical-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .practical-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .practical-list li::before {
+            content: "➔";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .practical-list strong {
+            color: var(--primary-dark);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            margin-top: 20px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent-hover);
+        }
+
+        footer {
+            text-align: center;
+            padding: 45px 20px;
+            font-size: 13.5px;
+            color: #94a3b8;
+            background-color: var(--primary-dark);
+            border-top: 4px solid var(--accent);
+            margin-top: 60px;
+        }
+
+        @media (max-width: 680px) {
+            .page-header h1 { font-size: 1.8rem; }
+            .article-card { padding: 25px; }
+            .nav-container { flex-direction: column; gap: 14px; padding: 14px; }
+            nav a { margin: 0 10px; font-size: 14.5px; }
+            .info-table th, .info-table td { display: block; width: 100%; }
+            .info-table th { border-bottom: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">Portal<span>EBD</span></a>
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="quem-somos.html">Quem Somos</a>
+                <a href="estudos.html">Estudos</a>
+                <a href="classes.html">Classes</a>
+                <a href="pedido.html">Revistas</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <h1>O Livro de Daniel</h1>
+        <p>Estudo bíblico, histórico e profético sobre a soberania divina no exílio</p>
+    </section>
+
+    <main class="main-content">
+        <article class="article-card">
+            
+            <p class="intro-text">
+                Neste trimestre, a Escola Bíblica Dominical mergulha em um dos livros mais fascinantes e profundos das Sagradas Escrituras: o Livro de Daniel. Um texto que equilibra perfeitamente narrativas de fidelidade heroica com visões proféticas impressionantes.
+            </p>
+
+            <div class="scripture-quote">
+                “O segredo foi revelado a Daniel numa visão de noite; então Daniel louvou o Deus do céu. Falou Daniel, dizendo: Seja bendito o nome de Deus de eternidade a eternidade, porque dele são a sabedoria e a força; ele muda os tempos e as estações; ele remove os reis e estabelece os reis...”
+                <span class="scripture-reference">Daniel 2:19-21</span>
+            </div>
+
+            <h2 class="section-title">Evidências Introdutórias</h2>
+            <p>
+                Para uma compreensão madura do texto sagrado, é indispensável estabelecer os marcos históricos, literários e de autoria que balizam a obra. Veja abaixo o resumo teológico introdutório:
+            </p>
+
+            <table class="info-table">
+                <tr>
+                    <th>Autor</th>
+                    <td>O profeta Daniel, um jovem nobre judeu levado cativo para a Babilônia na primeira deportação por Nabucodonosor.</td>
+                </tr>
+                <tr>
+                    <th>Data do Escrito</th>
+                    <td>Aproximadamente no século VI a.C. (por volta de 530 a.C.), registrando eventos desde o início do cativeiro (605 a.C.) até os primeiros anos do Império Persa.</td>
+                </tr>
+                <tr>
+                    <th>Contexto Histórico</th>
+                    <td>O Exílio Babilônico. Jerusalém foi sitiada, o Templo destruído e o povo de Deus foi forçado a viver sob a hegemonia de um império pagão, enfrentando forte pressão de assimilação cultural.</td>
+                </tr>
+                <tr>
+                    <th>Gênero Literário</th>
+                    <td>O livro é bilingue (escrito em Hebraico e Aramaico) e possui natureza mista: Histórico-Narrativo (capítulos 1 a 6) e Apocalíptico-Profético (capítulos 7 a 12).</td>
+                </tr>
+            </table>
+
+            <h2 class="section-title">O Tipo de Literatura: O Gênero Apocalíptico</h2>
+            <p>
+                A segunda metade do livro é composta por visões que utilizam simbolismos ricos, animais híbridos e contagem de tempos. Esse estilo é chamado de literatura apocalíptica. 
+            </p>
+            <p>
+                Ao contrário do que muitos pensam, o propósito principal do gênero apocalíptico na Bíblia não é gerar medo ou adivinhações futuristas detalhadas, mas sim trazer esperança e consolo. Ele foi gerado em períodos de severa crise para lembrar o povo de que, por trás dos bastidores da história humana e do avanço de impérios violentos, Deus permanece sentado no trono, governando o tempo e o espaço.
+            </p>
+
+            <h2 class="section-title">Atualização no Século XXI: Evitando o Anacronismo</h2>
+            <p>
+                O maior perigo ao ler Daniel nos dias de hoje é o anacronismo, que consiste em pegar conceitos, debates políticos ou tecnologias modernas do século XXI e tentar forçá-los dentro de um texto escrito há mais de 2.500 anos no antigo Oriente Médio. Daniel não escreveu pensando em partidos políticos modernos, moedas digitais ou dinâmicas geopolíticas contemporâneas.
+            </p>
+            <p>
+                Para aplicar Daniel corretamente hoje de forma saudável e bíblica, devemos extrair os princípios eternos por trás das narrativas:
+            </p>
+
+            <ul class="practical-list">
+                <li><strong>Fidelidade em Contexto de Pressão:</strong> Assim como Daniel e seus amigos decidiram não se contaminar com as iguarias do rei, a Igreja atual é desafiada a manter sua integridade ética e espiritual diante de uma sociedade que tenta moldar seus valores.</li>
+                <li><strong>A Soberania de Deus sobre a Política:</strong> O livro nos ensina que governos, impérios e líderes humanos sobem e descem, mas o Reino de Deus é o único eterno. Isso guarda o cristão do século XXI do desespero ou da idolatria política.</li>
+                <li><strong>Testemunho Público Firme:</strong> Daniel não se isolou em um gueto religioso; ele serviu ao Estado com excelência profissional, sabedoria e erudição, sem jamais negociar sua devoção exclusiva ao Senhor.</li>
+            </ul>
+
+            <h2 class="section-title">Conclusão</h2>
+            <p>
+                Estudar Daniel neste trimestre não será apenas uma jornada de aprendizado teológico, mas um despertamento prático para que sejamos respostas de Deus na nossa geração, vivendo com coragem, retidão e a certeza de que o Altíssimo tem o controle da história.
+            </p>
+
+            <a href="index.html" class="back-link">← Voltar para a Página Inicial</a>
+
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Escola Bíblica Dominical | IEADAM - ÁREA 111 | Pr. José Nelson - Igreja da Torre</p> 
+        <p style="margin-top: 5px;">Todo o conteúdo é planejado para o crescimento educacional e edificação cristã dos alunos</p>
+    </footer>
+
+</body>
+</html>
