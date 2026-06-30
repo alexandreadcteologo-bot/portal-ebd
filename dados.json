@@ -5,21 +5,21 @@
     {
       "nome": "Pr. Ronildo Leocadio",
       "dia": "27 ABRIL",
-      "classe": "Classe Maçarocas"
+      "classe": "Classe MaÃ§arocas"
     }
   ],
   "destaquesEstrelas": [
     {
       "nome": "Evangelina",
-      "classe": "Classe Jóias Preciosas"
+      "classe": "Classe JÃ³ias Preciosas"
     },
     {
       "nome": "Maria Laura",
-      "classe": "Classe Jóias Preciosas"
+      "classe": "Classe JÃ³ias Preciosas"
     },
     {
       "nome": "Nivane",
-      "classe": "Classe Jóias Preciosas"
+      "classe": "Classe JÃ³ias Preciosas"
     },
     {
       "nome": "Luendrya",
@@ -27,24 +27,24 @@
     },
     {
       "nome": "Pr. Ronildo",
-      "classe": "Classe Maçarocas"
+      "classe": "Classe MaÃ§arocas"
     },
     {
       "nome": "Dc. Silvano",
-      "classe": "Classe Maçarocas"
+      "classe": "Classe MaÃ§arocas"
     },
     {
       "nome": "Valdiney",
-      "classe": "Classe Maçarocas"
+      "classe": "Classe MaÃ§arocas"
     },
     {
       "nome": "Yone",
-      "classe": "Classe Estrela da Manhã"
+      "classe": "Classe Estrela da ManhÃ£"
     }
   ],
   "classeCampeao": {
-    "nome": "Classe Maçarocas",
-    "label": "2º TRIMESTRE"
+    "nome": "Classe MaÃ§arocas",
+    "label": "2Âº TRIMESTRE"
   },
   "banners": {
     "img1": "",
@@ -90,5 +90,12 @@
       "revista": "Infantil / Maternal",
       "descricao": "Espaço pedagógico e lúdico estruturado para os pequenos."
     }
-  ]
+  ],
+  "configRevistas": {
+    "dataLimite": "01/07/2026, às 8h.",
+    "pixInfo": "92981517272 - Raquel dos Santos Rocha - Nubank",
+    "valProfessor": "12,00",
+    "valAdolescente": "13,00",
+    "valAluno": "11,00"
+  }
 }
