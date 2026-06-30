@@ -4,8 +4,8 @@
   "aniversariantes": [],
   "destaquesEstrelas": [],
   "classeCampeao": {
-    "nome": "MAÃAROCAS",
-    "label": "Classe CampeÃ£ do 2Âº Trimestre"
+    "nome": "Classe Maçarocas",
+    "label": "2º TRIMESTRE"
   },
   "banners": {
     "img1": "",
@@ -15,5 +15,41 @@
     "p1": "",
     "p2": ""
   },
-  "classesList": []
+  "classesList": [
+    {
+      "nome": "Classe Estrela da Manhã",
+      "categoria": "Classe de Mulheres",
+      "publico": "Mulheres",
+      "revista": "Adultos",
+      "descricao": "Espaço especial voltado para o público feminino."
+    },
+    {
+      "nome": "Classe Jóias Preciosas",
+      "categoria": "Classe de Mulheres",
+      "publico": "Mulheres",
+      "revista": "Adultos",
+      "descricao": "Um ambiente focado no crescimento espiritual feminino."
+    },
+    {
+      "nome": "Classe Maçarocas",
+      "categoria": "Classe de Homens",
+      "publico": "Homens",
+      "revista": "Adultos",
+      "descricao": "Classe tradicional voltada para o público masculino."
+    },
+    {
+      "nome": "Classe Jovens e Adolescentes",
+      "categoria": "Classe de Jovens e Adolescentes",
+      "publico": "Juventude EBD",
+      "revista": "Jovens / Adolescentes",
+      "descricao": "Ensino contextualizado com linguagem dinâmica."
+    },
+    {
+      "nome": "Classe de Crianças",
+      "categoria": "Classe Infantil",
+      "publico": "Crianças (Infantil)",
+      "revista": "Infantil / Maternal",
+      "descricao": "Espaço pedagógico e lúdico estruturado para os pequenos."
+    }
+  ]
 }
