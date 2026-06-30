@@ -2,7 +2,40 @@
   "avisos": [],
   "estudos": [],
   "aniversariantes": [],
-  "destaquesEstrelas": [],
+  "destaquesEstrelas": [
+    {
+      "nome": "Evangelina",
+      "classe": "Classe Jóias Preciosas"
+    },
+    {
+      "nome": "Maria Laura",
+      "classe": "Classe Jóias Preciosas"
+    },
+    {
+      "nome": "Nivane",
+      "classe": "Classe Jóias Preciosas"
+    },
+    {
+      "nome": "Luendrya",
+      "classe": "Classe Jovens e Adolescentes"
+    },
+    {
+      "nome": "Pr. Ronildo",
+      "classe": "Classe Maçarocas"
+    },
+    {
+      "nome": "Dc. Silvano",
+      "classe": "Classe Maçarocas"
+    },
+    {
+      "nome": "Valdiney",
+      "classe": "Classe Maçarocas"
+    },
+    {
+      "nome": "Yone",
+      "classe": "Classe Estrela da Manhã"
+    }
+  ],
   "classeCampeao": {
     "nome": "Classe Maçarocas",
     "label": "2º TRIMESTRE"
