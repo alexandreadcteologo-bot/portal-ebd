@@ -1,7 +1,13 @@
 {
   "avisos": [],
   "estudos": [],
-  "aniversariantes": [],
+  "aniversariantes": [
+    {
+      "nome": "Pr. Ronildo Leocadio",
+      "dia": "27 ABRIL",
+      "classe": "Classe Maçarocas"
+    }
+  ],
   "destaquesEstrelas": [
     {
       "nome": "Evangelina",
